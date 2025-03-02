@@ -280,18 +280,26 @@ $(document).ready(function () {
     }
 
     function copyCode() {
-        let copyText = document.createElement("input");
-        copyText.value = exportCode;
-        copyText.select();
-        copyText.setSelectionRange(0, 99999);
-        navigator.clipboard.writeText(copyText.value)
-            .then(() => {
-                alert("复制成功, 请前往\"课表横式\"并打开控制台粘贴")
-            })
-            .catch(() => {
-                alert("复制失败")
-        })
+        if (!navigator.clipboard) {
+            let copyText = document.createElement("textarea");
+            copyText.value = exportCode;
+            document.body.appendChild(copyText);
+            copyText.select();
+            copyText.setSelectionRange(0, copyText.value.length);
+            document.execCommand("copy");
+            document.body.removeChild(copyText);
+            alert("复制成功, 请前往\"课表横式\"并打开控制台粘贴");
+        } else {
+            navigator.clipboard.writeText(exportCode)
+                .then(() => {
+                    alert("复制成功, 请前往\"课表横式\"并打开控制台粘贴");
+                })
+                .catch(() => {
+                    alert("复制失败");
+                });
+        }
     }
+
 
     inputButton.on("click", inputHook);
     reloadButton.on("click", () => loadHook(true));
