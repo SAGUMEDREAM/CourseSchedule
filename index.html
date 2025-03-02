@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="">
+<head>
+    <meta charset="UTF-8">
+    <title>课表工具</title>
+    <link rel="stylesheet" href="/css/base.css">
+    <script src="/node_modules/jquery/dist/jquery.js"></script>
+    <script src="main.js"></script>
+</head>
+<body>
+    <div id="app">
+        <div class="title">课表查询工具</div>
+        <div class="weeks-container">
+            <button class="button decrease_week">-</button>
+            <div class="week-number"></div>
+            <button class="button increase_week">+</button>
+        </div>
+        <table class="excel">
+            <thead>
+            <tr>
+                <th class="header_none" style="width: 10%">时间</th>
+                <th class="week1" style="width: 12%">星期一</th>
+                <th class="week2" style="width: 12%">星期二</th>
+                <th class="week3" style="width: 12%">星期三</th>
+                <th class="week4" style="width: 12%">星期四</th>
+                <th class="week5" style="width: 12%">星期五</th>
+                <th class="week6" style="width: 12%">星期六</th>
+                <th class="week7" style="width: 12%">星期日</th>
+            </tr>
+            </thead>
+            <tbody class="tbody">
+            </tbody>
+        </table>
+        <div class="button-container">
+            <button class="button input"><span>导入数据</span></button>
+            <button class="button reload"><span>刷新数据</span></button>
+        </div>
+        <div id="gitalk-container"></div>
+        <link rel="stylesheet" href="/css/gitalk.css">
+        <script src="/js/gitalk.min.js"></script>
+        <script src="gitalk.js"></script>
+    </div>
+</body>
+</html>
