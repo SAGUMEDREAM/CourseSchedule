@@ -1,9 +1,11 @@
 $(document).ready(function () {
+    const exportCode = `(()=>{const table=document.querySelector("#cTable");const rows=table.querySelectorAll("tbody tr");const result={monday:[],tuesday:[],wednesday:[],thursday:[],friday:[],saturday:[],sunday:[]};const daysOfWeek=['monday','tuesday','wednesday','thursday','friday','saturday','sunday'];const courseRegex=/(.*)\\s?\\((.*)\\)\\s?\\((\\d+-\\d+)\\)\\s?([A-Za-z0-9]+)\\s*(.*)/;rows.forEach(row=>{const cells=row.querySelectorAll('td');cells.forEach((cell,index)=>{if(index===0)return;const courseElement=cell.querySelector(".STYLE1");if(courseElement){const courseText=String(courseElement.innerHTML).trim();if(courseText.includes('<br>')){const courses=courseText.split('<br>').map(item=>item.trim());const arr=[];courses.forEach(course=>{const parsedCourse=parseCourse(course);arr.push(parsedCourse)});result[daysOfWeek[index-1]].push([arr])}else{const parsedCourse=parseCourse(courseText);result[daysOfWeek[index-1]].push([parsedCourse])}}})});const base64String=btoa(unescape(encodeURIComponent(JSON.stringify(result))));console.log("请复制以下代码:");console.log(base64String);return JSON.stringify(result);function parseCourse(courseText){const match=courseText.match(courseRegex);if(match){return{name:match[1].trim(),id:match[2].trim(),time:match[3]?match[3].trim():'',room:match[4].trim(),teacher:match[5]?match[5].trim():''}}return null}})();`
     const app = $("#app");
     const table = $(".excel");
     const tbody = $(".tbody");
     const inputButton = $(".input");
     const reloadButton = $(".reload");
+    const copyCodeButton = $(".copy-code");
     const increaseWeekButton = $(".increase_week");
     const decreaseWeekButton = $(".decrease_week");
     const data = {
@@ -72,7 +74,7 @@ $(document).ready(function () {
         const base64Str = localStorage.getItem("data");
         const startStr = localStorage.getItem("start");
         if (startStr != null && startStr !== "") {
-            start.value = startStr
+            start.value = Number(startStr);
         }
         if (base64Str != null && base64Str !== "") {
             try {
@@ -227,12 +229,12 @@ $(document).ready(function () {
         const startDate = new Date(start.value);
         if (isNaN(startDate.getTime())) {
             console.error("起始日期格式无效");
-            return
+            return;
         }
         const weekNumber = parseInt(nowWeek.value, 10);
         if (isNaN(weekNumber)) {
             console.error("当前周数格式无效");
-            return
+            return;
         }
         const currentWeekStartDate = new Date(startDate);
         currentWeekStartDate.setDate(startDate.getDate() + (weekNumber - 1) * 7);
@@ -258,21 +260,44 @@ $(document).ready(function () {
     }
 
     function increaseWeekHook() {
+        if (data.value == null || start.value == null) {
+            alert("数据无效");
+            return
+        }
         nowWeek.value++;
         updateWeekNumber();
         loadHook(true)
     }
 
     function decreaseWeek() {
+        if (data.value == null || start.value == null) {
+            alert("数据无效");
+            return
+        }
         nowWeek.value--;
         updateWeekNumber();
         loadHook(true)
+    }
+
+    function copyCode() {
+        let copyText = document.createElement("input");
+        copyText.value = exportCode;
+        copyText.select();
+        copyText.setSelectionRange(0, 99999);
+        navigator.clipboard.writeText(copyText.value)
+            .then(() => {
+                alert("复制成功, 请前往\"课表横式\"并打开控制台粘贴")
+            })
+            .catch(() => {
+                alert("复制失败")
+        })
     }
 
     inputButton.on("click", inputHook);
     reloadButton.on("click", () => loadHook(true));
     increaseWeekButton.on("click", increaseWeekHook);
     decreaseWeekButton.on("click", decreaseWeek);
+    copyCodeButton.on("click", copyCode)
     loadDataFromLocalStorage();
     updateWeekNumber()
 });

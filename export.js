@@ -1,6 +1,5 @@
 (() => {
     const table = document.querySelector("#cTable");
-
     const rows = table.querySelectorAll("tbody tr");
 
     const result = {
@@ -45,8 +44,8 @@
         });
     });
     const base64String = btoa(unescape(encodeURIComponent(JSON.stringify(result))));
-    console.log("请复制以下代码:")
-    console.log(base64String)
+    console.log("请复制以下代码:");
+    console.log(base64String);
 
     return JSON.stringify(result);
 
