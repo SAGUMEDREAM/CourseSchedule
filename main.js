@@ -38,28 +38,28 @@ $(document).ready(function () {
         const headStr = ((index) => {
             switch (index) {
                 case 0:
-                    return "0102";
+                    return "第1,2节<br>9:00-10:25";
                 case 1:
-                    return "0304";
+                    return "第3,4节<br>10:40-12:25";
                 case 2:
-                    return "0506";
+                    return "第5,6节<br>14:30-15:55";
                 case 3:
-                    return "0708";
+                    return "第7,8节<br>17:40-17:40";
                 case 4:
-                    return "0910";
+                    return "第9,10节<br>19:00-20:25";
                 case 5:
-                    return "11";
+                    return "第11节<br>20:30-21:40";
                 case 6:
-                    return "12";
+                    return "第12节";
                 case 7:
-                    return "13";
+                    return "第13节";
                 default:
                     return ""
             }
         })(i);
         const tr = document.createElement("tr");
         const th = document.createElement("th");
-        th.textContent = headStr;
+        th.innerHTML = headStr;
         tr.appendChild(th);
         for (let j = 0; j < 7; j++) {
             const thColumn = document.createElement("th");
