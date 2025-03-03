@@ -224,7 +224,7 @@ $(document).ready(function () {
         }, {
             class: ".week7",
             day: "星期日",
-            dayIndex: 0
+            dayIndex: 7
         }];
         const startDate = new Date(start.value);
         if (isNaN(startDate.getTime())) {
